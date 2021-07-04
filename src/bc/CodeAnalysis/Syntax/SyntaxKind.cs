@@ -1,4 +1,4 @@
-namespace Biza.CodeAnalysis
+namespace Biza.CodeAnalysis.Syntaxt
 {
     public enum SyntaxKind
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Biza.CodeAnalysis
+namespace Biza.CodeAnalysis.Syntaxt
 {
     public abstract class SyntaxNode
     {

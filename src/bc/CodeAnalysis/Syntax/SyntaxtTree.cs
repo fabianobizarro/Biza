@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Biza.CodeAnalysis
+namespace Biza.CodeAnalysis.Syntaxt
 {
     public sealed class SyntaxtTree
     {

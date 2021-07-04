@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Biza.CodeAnalysis
+namespace Biza.CodeAnalysis.Syntaxt
 {
     public sealed class LiteralExpressionSyntax : ExpressionSyntax
     {
