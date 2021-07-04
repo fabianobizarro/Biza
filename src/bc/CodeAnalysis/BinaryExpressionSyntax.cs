@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Biza.CodeAnalysis
 {
-    sealed class BinaryExpressionSyntax : ExpressionSyntax
+    public sealed class BinaryExpressionSyntax : ExpressionSyntax
     {
         public BinaryExpressionSyntax(ExpressionSyntax left, SyntaxToken operation, ExpressionSyntax right)
         {

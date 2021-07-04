@@ -10,13 +10,14 @@ namespace Biza.CodeAnalysis
         PlusToken,
         MinusToken,
         SlashToken,
-        StartToken,
+        StarToken,
         CloseParenthesisToken,
         OpenParenthesisToken,
 
         // Expressions
         LiteralExpression,
+        UnaryExpression,
         BinaryExpression,
-        ParenthesizedExpression
+        ParenthesizedExpression,
     }
 }

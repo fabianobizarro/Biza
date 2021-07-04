@@ -6,7 +6,7 @@ namespace Biza.CodeAnalysis
     internal sealed class Parser
     {
         private readonly SyntaxToken[] _tokens;
-        private List<string> _diagnostics = new List<string>();
+        private readonly List<string> _diagnostics = new();
         private int _position;
 
         public Parser(string text)
@@ -30,7 +30,6 @@ namespace Biza.CodeAnalysis
         }
 
         public IEnumerable<string> Diagnostics => _diagnostics;
-
 
         private SyntaxToken Peek(int offset)
         {
@@ -60,42 +59,43 @@ namespace Biza.CodeAnalysis
             return new SyntaxToken(kind, Current.Position, null, null);
         }
 
-        private ExpressionSyntax ParseExpression() => ParseTerm();
+        private ExpressionSyntax ParseExpression(int parentPrecedence = 0)
+        {
+            ExpressionSyntax left;
+            var unaryOperatorPrecedence = Current.Kind.GetUnaryOperatorPrecedence();
+
+            if (unaryOperatorPrecedence != 0 && unaryOperatorPrecedence >= parentPrecedence)
+            {
+                var operatorToken = NextToken();
+                var operand = ParseExpression(unaryOperatorPrecedence);
+                left = new UnaryExpressionSyntax(operatorToken, operand);
+            }
+            else
+            {
+                left = ParsePrimaryExpression();
+            }
+
+            while (true)
+            {
+                int precedence = Current.Kind.GetBinaryOperatorPrecedence();
+                if (precedence == 0 || precedence <= parentPrecedence)
+                    break;
+
+                var operatorToken = NextToken();
+                var right = ParseExpression(precedence);
+                left = new BinaryExpressionSyntax(left, operatorToken, right);
+            }
+
+            return left;
+        }
+
+        
 
         public SyntaxtTree Parse()
         {
             var expression = ParseExpression();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
             return new SyntaxtTree(_diagnostics, expression, endOfFileToken);
-        }
-
-        private ExpressionSyntax ParseTerm()
-        {
-            var left = ParseFactor();
-
-            while (Current.Kind is SyntaxKind.PlusToken ||
-                   Current.Kind is SyntaxKind.MinusToken)
-            {
-                var operation = NextToken();
-                var right = ParseFactor();
-                left = new BinaryExpressionSyntax(left, operation, right);
-            }
-
-            return left;
-        }
-
-        private ExpressionSyntax ParseFactor()
-        {
-            ExpressionSyntax left = ParsePrimaryExpression();
-
-            while (Current.Kind is SyntaxKind.StartToken || Current.Kind is SyntaxKind.SlashToken)
-            {
-                var operation = NextToken();
-                var right = ParsePrimaryExpression();
-                left = new BinaryExpressionSyntax(left, operation, right);
-            }
-
-            return left;
         }
 
         private ExpressionSyntax ParsePrimaryExpression()

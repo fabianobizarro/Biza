@@ -69,7 +69,7 @@ namespace Biza.CodeAnalysis
             {
                 '+' => new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null),
                 '-' => new SyntaxToken(SyntaxKind.MinusToken, _position++, "-", null),
-                '*' => new SyntaxToken(SyntaxKind.StartToken, _position++, "*", null),
+                '*' => new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null),
                 '/' => new SyntaxToken(SyntaxKind.SlashToken, _position++, "/", null),
                 '(' => new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null),
                 ')' => new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null),
