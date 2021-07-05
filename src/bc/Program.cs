@@ -1,4 +1,5 @@
 ﻿using Biza.CodeAnalysis;
+using Biza.CodeAnalysis.Binding;
 using Biza.CodeAnalysis.Syntaxt;
 using System;
 using System.Linq;
@@ -32,6 +33,10 @@ namespace Biza
                 }
 
                 var syntaxTree = SyntaxtTree.Parse(line);
+                var binder = new Binder();
+                var boundExpression = binder.BindExpression(syntaxTree.Root);
+
+                var diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
 
                 if (showTree)
                 {
@@ -40,9 +45,9 @@ namespace Biza
                     Console.ResetColor();
                 }
 
-                if (!syntaxTree.Diagnostics.Any())
+                if (!diagnostics.Any())
                 {
-                    var evaluator = new Evaluator(syntaxTree.Root);
+                    var evaluator = new Evaluator(boundExpression);
                     var result = evaluator.Evaluate();
                     WriteLine(result);
                 }
@@ -50,7 +55,7 @@ namespace Biza
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
 
-                    foreach (var diagnostic in syntaxTree.Diagnostics)
+                    foreach (var diagnostic in diagnostics)
                         WriteLine(diagnostic);
 
                     Console.ResetColor();

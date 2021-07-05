@@ -1,13 +1,13 @@
-using Biza.CodeAnalysis.Syntaxt;
+using Biza.CodeAnalysis.Binding;
 using System;
 
 namespace Biza.CodeAnalysis
 {
-    public sealed class Evaluator
+    internal sealed class Evaluator
     {
-        private readonly ExpressionSyntax _root;
+        private readonly BoundExpression _root;
 
-        public Evaluator(ExpressionSyntax root)
+        public Evaluator(BoundExpression root)
         {
             _root = root;
         }
@@ -17,42 +17,42 @@ namespace Biza.CodeAnalysis
             return EvaluateExpression(_root);
         }
 
-        private int EvaluateExpression(ExpressionSyntax node)
+        private int EvaluateExpression(BoundExpression node)
         {
             return node switch
             {
-                LiteralExpressionSyntax n => (int)n.NumberToken.Value,
-                UnaryExpressionSyntax u => EvaluateUnaryExpression(u),
-                BinaryExpressionSyntax b => EvaluateBinaryExpression(b),
-                ParenthesizedExpressionSyntax p => EvaluateExpression(p.Expression),
+                BoundLiteralExpression n => (int)n.Value,
+                BoundUnaryExpression u => EvaluateUnaryExpression(u),
+                BoundBinaryExpression b => EvaluateBinaryExpression(b),
                 _ => throw new Exception($"Unexpected node {node.Kind}")
             };
         }
 
-        private int EvaluateUnaryExpression(UnaryExpressionSyntax u)
+        private int EvaluateUnaryExpression(BoundUnaryExpression u)
         {
             var operand = EvaluateExpression(u.Operand);
 
-            return u.OperatorToken.Kind switch
+            return u.OperatorKind switch
             {
-                SyntaxKind.PlusToken => operand,
-                SyntaxKind.MinusToken => -operand,
-                _ => throw new Exception($"Unexpected unary operator {u.OperatorToken.Kind}")
+                BoundUnaryOperatorKind.Identity => operand,
+                BoundUnaryOperatorKind.Negation => -operand,
+                _ => throw new Exception($"Unexpected unary operator {u.OperatorKind}")
             };
         }
 
-        private int EvaluateBinaryExpression(BinaryExpressionSyntax b)
+        private int EvaluateBinaryExpression(BoundBinaryExpression b)
         {
             var left = EvaluateExpression(b.Left);
             var right = EvaluateExpression(b.Right);
 
-            return b.OperationToken.Kind switch
+            return b.OperatorKind switch
             {
-                SyntaxKind.PlusToken => left + right,
-                SyntaxKind.MinusToken => left - right,
-                SyntaxKind.StarToken => left * right,
-                SyntaxKind.SlashToken => left / right,
-                _ => throw new Exception($"Unexpected binary operator {b.OperationToken.Kind}")
+
+                BoundBinaryOperatorKind.Addition => left + right,
+                BoundBinaryOperatorKind.Subtraction => left - right,
+                BoundBinaryOperatorKind.Multiplication=> left * right,
+                BoundBinaryOperatorKind.Division => left / right,
+                _ => throw new Exception($"Unexpected binary operator {b.OperatorKind}")
             };
         }
     }
