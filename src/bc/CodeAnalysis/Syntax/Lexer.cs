@@ -90,9 +90,11 @@ namespace Biza.CodeAnalysis.Syntaxt
                 '/' => new SyntaxToken(SyntaxKind.SlashToken, _position++, "/", null),
                 '(' => new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null),
                 ')' => new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null),
-                '!' => new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null), 
-                '&' when Lookahead == '&' => new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position += 2, "&&", null), 
-                '|' when Lookahead == '|' => new SyntaxToken(SyntaxKind.PipePipeToken, _position += 2, "||", null), 
+                '&' when Lookahead == '&' => new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position += 2, "&&", null),
+                '|' when Lookahead == '|' => new SyntaxToken(SyntaxKind.PipePipeToken, _position += 2, "||", null),
+                '=' when Lookahead == '=' => new SyntaxToken(SyntaxKind.EqualsEqualsToken, _position += 2, "==", null),
+                '!' when Lookahead == '=' => new SyntaxToken(SyntaxKind.BangEqualsToken, _position += 2, "!=", null),
+                '!' => new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null),
                 _ => null
             };
 

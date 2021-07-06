@@ -11,6 +11,11 @@ namespace Biza.CodeAnalysis.Syntaxt
         MinusToken,
         SlashToken,
         StarToken,
+        BangToken,
+        AmpersandAmpersandToken,
+        PipePipeToken,
+        EqualsEqualsToken,
+        BangEqualsToken,
         CloseParenthesisToken,
         OpenParenthesisToken,
         IdentifierToken,
@@ -24,8 +29,5 @@ namespace Biza.CodeAnalysis.Syntaxt
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
-        BangToken,
-        AmpersandAmpersandToken,
-        PipePipeToken,
     }
 }

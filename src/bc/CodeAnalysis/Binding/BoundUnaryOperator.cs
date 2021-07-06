@@ -15,14 +15,14 @@ namespace Biza.CodeAnalysis.Binding
         {
             SyntaxKind = syntaxKind;
             Kind = kind;
-            ResultType = resultType;
+            Type = resultType;
             OperandType = operandType;
         }
 
         public SyntaxKind SyntaxKind { get; }
         public BoundUnaryOperatorKind Kind { get; }
         public Type OperandType { get; }
-        public Type ResultType { get; }
+        public Type Type { get; }
 
         private static readonly BoundUnaryOperator[] _operators =
         {
