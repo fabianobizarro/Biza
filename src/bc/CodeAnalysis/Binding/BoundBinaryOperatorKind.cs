@@ -5,6 +5,8 @@
         Addition,
         Subtraction,
         Division,
-        Multiplication
+        Multiplication,
+        LogicalAnd,
+        LogicalOr
     }
 }

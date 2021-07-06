@@ -13,16 +13,13 @@ namespace Biza.CodeAnalysis.Binding
 
         public IEnumerable<string> Diagnostics => _diagnostics;
 
-        public BoundExpression BindExpression(ExpressionSyntax syntax)
+        public BoundExpression BindExpression(ExpressionSyntax syntax) => syntax switch
         {
-            return syntax switch
-            {
-                LiteralExpressionSyntax literal => BindLiteralExpression(literal),
-                UnaryExpressionSyntax unary => BindUnaryExpression(unary),
-                BinaryExpressionSyntax binary => BindBinaryExpression(binary),
-                _ => throw new Exception($"Unexpected syntax {syntax.Kind}")
-            };
-        }
+            LiteralExpressionSyntax literal => BindLiteralExpression(literal),
+            UnaryExpressionSyntax unary => BindUnaryExpression(unary),
+            BinaryExpressionSyntax binary => BindBinaryExpression(binary),
+            _ => throw new Exception($"Unexpected syntax {syntax.Kind}")
+        };
 
         private BoundExpression BindUnaryExpression(UnaryExpressionSyntax syntax)
         {
@@ -40,15 +37,27 @@ namespace Biza.CodeAnalysis.Binding
 
         private static BoundUnaryOperatorKind? BindUnaryOperatorKind(SyntaxKind kind, Type operandType)
         {
-            if (operandType != typeof(int))
-                return null;
-
-            return kind switch
+            if (operandType == typeof(int))
             {
-                SyntaxKind.PlusToken => BoundUnaryOperatorKind.Identity,
-                SyntaxKind.MinusToken => BoundUnaryOperatorKind.Negation,
-                _ => throw new Exception($"Unexpected unary operator {kind}")
-            };
+                return kind switch
+                {
+                    SyntaxKind.PlusToken => BoundUnaryOperatorKind.Identity,
+                    SyntaxKind.MinusToken => BoundUnaryOperatorKind.Negation,
+                    _ => null
+                };
+            }
+
+            if (operandType == typeof(bool))
+            {
+                return kind switch
+                {
+                    SyntaxKind.BangToken => BoundUnaryOperatorKind.LogicalNegation,
+                    _ => null
+                };
+            }
+
+            return null;
+
         }
 
         private static BoundExpression BindLiteralExpression(LiteralExpressionSyntax literal)
@@ -74,17 +83,29 @@ namespace Biza.CodeAnalysis.Binding
 
         private static BoundBinaryOperatorKind? BindBinaryOperatorKind(SyntaxKind kind, Type leftType, Type rightType)
         {
-            if (leftType != typeof(int) && rightType != typeof(int))
-                return null;
-
-            return kind switch
+            if (leftType == typeof(int) && rightType == typeof(int))
             {
-                SyntaxKind.PlusToken => BoundBinaryOperatorKind.Addition,
-                SyntaxKind.MinusToken => BoundBinaryOperatorKind.Subtraction,
-                SyntaxKind.StarToken => BoundBinaryOperatorKind.Multiplication,
-                SyntaxKind.SlashToken => BoundBinaryOperatorKind.Division,
-                _ => throw new Exception($"Unexpected binary operator {kind}")
-            };
+                return kind switch
+                {
+                    SyntaxKind.PlusToken => BoundBinaryOperatorKind.Addition,
+                    SyntaxKind.MinusToken => BoundBinaryOperatorKind.Subtraction,
+                    SyntaxKind.StarToken => BoundBinaryOperatorKind.Multiplication,
+                    SyntaxKind.SlashToken => BoundBinaryOperatorKind.Division,
+                    _ => null
+                };
+            }
+
+            if (leftType == typeof(bool) && rightType == typeof(bool))
+            {
+                return kind switch
+                {
+                    SyntaxKind.AmpersandAmpersandToken => BoundBinaryOperatorKind.LogicalAnd,
+                    SyntaxKind.PipePipeToken => BoundBinaryOperatorKind.LogicalOr,
+                    _ => null
+                };
+            }
+
+            return null;
         }
     }
 }

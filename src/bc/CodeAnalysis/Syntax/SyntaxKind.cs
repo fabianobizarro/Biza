@@ -24,5 +24,8 @@ namespace Biza.CodeAnalysis.Syntaxt
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
+        BangToken,
+        AmpersandAmpersandToken,
+        PipePipeToken,
     }
 }
