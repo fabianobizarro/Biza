@@ -28,7 +28,7 @@ namespace Biza.CodeAnalysis.Binding
         {
             var boundOperand = BindExpression(syntax.Operand);
             var boundOperatorKind = BindUnaryOperatorKind(syntax.OperatorToken.Kind, boundOperand.Type);
-        
+
             if (boundOperatorKind is null)
             {
                 _diagnostics.Add($"Unary operator {syntax.OperatorToken.Text} is not defined for type {boundOperand.Type}.");
@@ -53,7 +53,7 @@ namespace Biza.CodeAnalysis.Binding
 
         private static BoundExpression BindLiteralExpression(LiteralExpressionSyntax literal)
         {
-            var value = literal.LiteralToken.Value as int? ?? 0;
+            var value = literal.Value ?? 0;
             return new BoundLiteralExpression(value);
         }
 
@@ -82,7 +82,7 @@ namespace Biza.CodeAnalysis.Binding
                 SyntaxKind.PlusToken => BoundBinaryOperatorKind.Addition,
                 SyntaxKind.MinusToken => BoundBinaryOperatorKind.Subtraction,
                 SyntaxKind.StarToken => BoundBinaryOperatorKind.Multiplication,
-                SyntaxKind.SlashToken=> BoundBinaryOperatorKind.Division,
+                SyntaxKind.SlashToken => BoundBinaryOperatorKind.Division,
                 _ => throw new Exception($"Unexpected binary operator {kind}")
             };
         }

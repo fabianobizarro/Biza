@@ -13,6 +13,11 @@ namespace Biza.CodeAnalysis.Syntaxt
         StarToken,
         CloseParenthesisToken,
         OpenParenthesisToken,
+        IdentifierToken,
+
+        // Keywords
+        FalseKeyword,
+        TrueKeyword,
 
         // Expressions
         LiteralExpression,

@@ -12,25 +12,25 @@ namespace Biza.CodeAnalysis
             _root = root;
         }
 
-        public int Evaluate()
+        public object Evaluate()
         {
             return EvaluateExpression(_root);
         }
 
-        private int EvaluateExpression(BoundExpression node)
+        private object EvaluateExpression(BoundExpression node)
         {
             return node switch
             {
-                BoundLiteralExpression n => (int)n.Value,
+                BoundLiteralExpression n => n.Value,
                 BoundUnaryExpression u => EvaluateUnaryExpression(u),
                 BoundBinaryExpression b => EvaluateBinaryExpression(b),
                 _ => throw new Exception($"Unexpected node {node.Kind}")
             };
         }
 
-        private int EvaluateUnaryExpression(BoundUnaryExpression u)
+        private object EvaluateUnaryExpression(BoundUnaryExpression u)
         {
-            var operand = EvaluateExpression(u.Operand);
+            var operand = (int)EvaluateExpression(u.Operand);
 
             return u.OperatorKind switch
             {
@@ -40,17 +40,16 @@ namespace Biza.CodeAnalysis
             };
         }
 
-        private int EvaluateBinaryExpression(BoundBinaryExpression b)
+        private object EvaluateBinaryExpression(BoundBinaryExpression b)
         {
-            var left = EvaluateExpression(b.Left);
-            var right = EvaluateExpression(b.Right);
+            var left = (int)EvaluateExpression(b.Left);
+            var right = (int)EvaluateExpression(b.Right);
 
             return b.OperatorKind switch
             {
-
                 BoundBinaryOperatorKind.Addition => left + right,
                 BoundBinaryOperatorKind.Subtraction => left - right,
-                BoundBinaryOperatorKind.Multiplication=> left * right,
+                BoundBinaryOperatorKind.Multiplication => left * right,
                 BoundBinaryOperatorKind.Division => left / right,
                 _ => throw new Exception($"Unexpected binary operator {b.OperatorKind}")
             };

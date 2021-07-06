@@ -20,5 +20,12 @@ namespace Biza.CodeAnalysis.Syntaxt
             SyntaxKind.PlusToken or SyntaxKind.MinusToken => 1,
             _ => 0
         };
+
+        internal static SyntaxKind GetKeywordKind(string text) => text switch
+        {
+            "true" => SyntaxKind.TrueKeyword,
+            "false" => SyntaxKind.FalseKeyword,
+            _ => SyntaxKind.IdentifierToken,
+        };
     }
 }

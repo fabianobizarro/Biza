@@ -89,8 +89,6 @@ namespace Biza.CodeAnalysis.Syntaxt
             return left;
         }
 
-        
-
         public SyntaxtTree Parse()
         {
             var expression = ParseExpression();
@@ -100,17 +98,31 @@ namespace Biza.CodeAnalysis.Syntaxt
 
         private ExpressionSyntax ParsePrimaryExpression()
         {
-            if (Current.Kind is SyntaxKind.OpenParenthesisToken)
+            switch (Current.Kind)
             {
-                var left = NextToken();
-                var expression = ParseExpression();
-                var right = MatchToken(SyntaxKind.CloseParenthesisToken);
+                case SyntaxKind.OpenParenthesisToken:
+                    {
 
-                return new ParenthesizedExpressionSyntax(left, expression, right);
+                        var left = NextToken();
+                        var expression = ParseExpression();
+                        var right = MatchToken(SyntaxKind.CloseParenthesisToken);
+
+                        return new ParenthesizedExpressionSyntax(left, expression, right);
+                    }
+                case SyntaxKind.FalseKeyword:
+                case SyntaxKind.TrueKeyword:
+                    {
+                        var keywordToken = NextToken();
+                        var value = Current.Kind == SyntaxKind.TrueKeyword;
+                        return new LiteralExpressionSyntax(keywordToken, value);
+                    }
+                default:
+                    {
+                        var numberToken = MatchToken(SyntaxKind.NumberToken);
+                        return new LiteralExpressionSyntax(numberToken);
+
+                    }
             }
-
-            var numberToken = MatchToken(SyntaxKind.NumberToken);
-            return new LiteralExpressionSyntax(numberToken);
         }
     }
 }
