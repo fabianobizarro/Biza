@@ -4,10 +4,10 @@ namespace Biza.CodeAnalysis.Binding
 {
     internal sealed class BoundBinaryExpression : BoundExpression
     {
-        public BoundBinaryExpression(BoundExpression left, BoundBinaryOperatorKind operatorKind, BoundExpression right)
+        public BoundBinaryExpression(BoundExpression left, BoundBinaryOperator operatorKind, BoundExpression right)
         {
             Left = left;
-            OperatorKind = operatorKind;
+            Op = operatorKind;
             Right = right;
         }
 
@@ -15,7 +15,7 @@ namespace Biza.CodeAnalysis.Binding
         public override BoundNodeKind Kind => BoundNodeKind.UnaryExpression;
 
         public BoundExpression Left { get; }
-        public BoundBinaryOperatorKind OperatorKind { get; }
+        public BoundBinaryOperator Op { get; }
         public BoundExpression Right { get; }
     }
 }
