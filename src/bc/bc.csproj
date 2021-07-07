@@ -6,4 +6,8 @@
     <RootNamespace>Biza</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Biza\Biza.csproj" />
+  </ItemGroup>
+
 </Project>

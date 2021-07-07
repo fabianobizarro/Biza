@@ -33,10 +33,9 @@ namespace Biza
                 }
 
                 var syntaxTree = SyntaxtTree.Parse(line);
-                var binder = new Binder();
-                var boundExpression = binder.BindExpression(syntaxTree.Root);
+                var compilation = new Compilation(syntaxTree);
 
-                var diagnostics = syntaxTree.Diagnostics.Concat(binder.Diagnostics).ToArray();
+                var result = compilation.Evaluate();
 
                 if (showTree)
                 {
@@ -45,17 +44,15 @@ namespace Biza
                     Console.ResetColor();
                 }
 
-                if (!diagnostics.Any())
+                if (!result.Diagnostics.Any())
                 {
-                    var evaluator = new Evaluator(boundExpression);
-                    var result = evaluator.Evaluate();
-                    WriteLine(result);
+                    WriteLine(result.Value);
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
 
-                    foreach (var diagnostic in diagnostics)
+                    foreach (var diagnostic in result.Diagnostics)
                         WriteLine(diagnostic);
 
                     Console.ResetColor();
