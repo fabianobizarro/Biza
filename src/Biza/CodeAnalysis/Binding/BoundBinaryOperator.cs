@@ -1,9 +1,5 @@
-﻿using Biza.CodeAnalysis.Syntaxt;
+﻿using Biza.CodeAnalysis.Syntax;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Biza.CodeAnalysis.Binding
 {

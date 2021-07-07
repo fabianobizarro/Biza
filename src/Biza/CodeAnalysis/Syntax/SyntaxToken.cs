@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Biza.CodeAnalysis.Syntaxt
+namespace Biza.CodeAnalysis.Syntax
 {
     public sealed class SyntaxToken : SyntaxNode
     {

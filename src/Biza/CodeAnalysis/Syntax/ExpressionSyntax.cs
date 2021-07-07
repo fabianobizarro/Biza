@@ -1,4 +1,4 @@
-namespace Biza.CodeAnalysis.Syntaxt
+namespace Biza.CodeAnalysis.Syntax
 {
     public abstract class ExpressionSyntax : SyntaxNode
     {

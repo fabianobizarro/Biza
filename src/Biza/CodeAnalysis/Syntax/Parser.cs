@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 
-namespace Biza.CodeAnalysis.Syntaxt
+namespace Biza.CodeAnalysis.Syntax
 {
     internal sealed class Parser
     {
@@ -89,11 +88,11 @@ namespace Biza.CodeAnalysis.Syntaxt
             return left;
         }
 
-        public SyntaxtTree Parse()
+        public SyntaxTree Parse()
         {
             var expression = ParseExpression();
             var endOfFileToken = MatchToken(SyntaxKind.EndOfFileToken);
-            return new SyntaxtTree(_diagnostics, expression, endOfFileToken);
+            return new SyntaxTree(_diagnostics, expression, endOfFileToken);
         }
 
         private ExpressionSyntax ParsePrimaryExpression()

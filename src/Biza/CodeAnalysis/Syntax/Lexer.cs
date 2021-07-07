@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Biza.CodeAnalysis.Syntaxt
+namespace Biza.CodeAnalysis.Syntax
 {
     internal sealed class Lexer
     {

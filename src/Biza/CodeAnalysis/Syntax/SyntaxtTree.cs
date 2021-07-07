@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Biza.CodeAnalysis.Syntaxt
+namespace Biza.CodeAnalysis.Syntax
 {
-    public sealed class SyntaxtTree
+    public sealed class SyntaxTree
     {
-        public SyntaxtTree(IEnumerable<string> diagnostics, ExpressionSyntax root, SyntaxToken endOfFileToken)
+        public SyntaxTree(IEnumerable<string> diagnostics, ExpressionSyntax root, SyntaxToken endOfFileToken)
         {
             Diagnostics = diagnostics.ToArray();
             Root = root;
@@ -16,7 +16,7 @@ namespace Biza.CodeAnalysis.Syntaxt
         public ExpressionSyntax Root { get; }
         public SyntaxToken EndOfFileToken { get; }
 
-        public static SyntaxtTree Parse(string text)
+        public static SyntaxTree Parse(string text)
         {
             var parser = new Parser(text);
             return parser.Parse();

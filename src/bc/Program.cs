@@ -1,6 +1,5 @@
 ﻿using Biza.CodeAnalysis;
-using Biza.CodeAnalysis.Binding;
-using Biza.CodeAnalysis.Syntaxt;
+using Biza.CodeAnalysis.Syntax;
 using System;
 using System.Linq;
 using static System.Console;
@@ -32,7 +31,7 @@ namespace Biza
                     continue;
                 }
 
-                var syntaxTree = SyntaxtTree.Parse(line);
+                var syntaxTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(syntaxTree);
 
                 var result = compilation.Evaluate();

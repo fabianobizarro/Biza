@@ -1,5 +1,5 @@
 ﻿using Biza.CodeAnalysis.Binding;
-using Biza.CodeAnalysis.Syntaxt;
+using Biza.CodeAnalysis.Syntax;
 using System;
 using System.Linq;
 
@@ -7,12 +7,12 @@ namespace Biza.CodeAnalysis
 {
     public sealed class Compilation
     {
-        public Compilation(SyntaxtTree syntaxTree)
+        public Compilation(SyntaxTree syntaxTree)
         {
             SyntaxTree = syntaxTree;
         }
 
-        public SyntaxtTree SyntaxTree { get; }
+        public SyntaxTree SyntaxTree { get; }
 
         public EvaluationResult Evaluate()
         {
@@ -20,7 +20,7 @@ namespace Biza.CodeAnalysis
             var boundExpression = binder.BindExpression(SyntaxTree.Root);
 
             var diagnostics = SyntaxTree.Diagnostics.Concat(binder.Diagnostics);
-            if (!diagnostics.Any())
+            if (diagnostics.Any())
             {
                 return new EvaluationResult(diagnostics, null);
             }

@@ -1,4 +1,4 @@
-﻿using Biza.CodeAnalysis.Syntaxt;
+﻿using Biza.CodeAnalysis.Syntax;
 using System;
 
 namespace Biza.CodeAnalysis.Binding
@@ -27,7 +27,7 @@ namespace Biza.CodeAnalysis.Binding
         private static readonly BoundUnaryOperator[] _operators =
         {
             new BoundUnaryOperator(SyntaxKind.BangToken, BoundUnaryOperatorKind.LogicalNegation, typeof(bool)),
-            
+
             new BoundUnaryOperator(SyntaxKind.PlusToken, BoundUnaryOperatorKind.Identity, typeof(bool)),
             new BoundUnaryOperator(SyntaxKind.MinusToken, BoundUnaryOperatorKind.Negation, typeof(bool)),
         };
