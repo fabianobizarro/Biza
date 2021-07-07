@@ -18,6 +18,7 @@ namespace Biza.CodeAnalysis.Binding
             LiteralExpressionSyntax literal => BindLiteralExpression(literal),
             UnaryExpressionSyntax unary => BindUnaryExpression(unary),
             BinaryExpressionSyntax binary => BindBinaryExpression(binary),
+            ParenthesizedExpressionSyntax p => BindExpression(p.Expression),
             _ => throw new Exception($"Unexpected syntax {syntax.Kind}")
         };
 
