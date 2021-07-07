@@ -13,8 +13,8 @@
             SyntaxKind.StarToken or SyntaxKind.SlashToken => 5,
             SyntaxKind.PlusToken or SyntaxKind.MinusToken => 4,
             SyntaxKind.EqualsEqualsToken or SyntaxKind.BangEqualsToken => 3,
-            SyntaxKind.AmpersandAmpersandToken => 2,
-            SyntaxKind.PipePipeToken => 1,
+            SyntaxKind.AmpersandAmpersandToken or SyntaxKind.AndKeyword=> 2,
+            SyntaxKind.PipePipeToken or SyntaxKind.OrKeyword => 1,
             _ => 0
         };
 
@@ -22,6 +22,8 @@
         {
             "true" => SyntaxKind.TrueKeyword,
             "false" => SyntaxKind.FalseKeyword,
+            "and" => SyntaxKind.AndKeyword,
+            "or" => SyntaxKind.OrKeyword,
             _ => SyntaxKind.IdentifierToken,
         };
     }

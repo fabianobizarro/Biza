@@ -29,5 +29,7 @@ namespace Biza.CodeAnalysis.Syntax
         UnaryExpression,
         BinaryExpression,
         ParenthesizedExpression,
+        OrKeyword,
+        AndKeyword,
     }
 }

@@ -76,7 +76,7 @@ namespace Biza.CodeAnalysis.Syntax
 
             while (true)
             {
-                int precedence = Current.Kind.GetBinaryOperatorPrecedence();
+                var precedence = Current.Kind.GetBinaryOperatorPrecedence();
                 if (precedence == 0 || precedence <= parentPrecedence)
                     break;
 
