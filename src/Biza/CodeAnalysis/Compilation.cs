@@ -1,6 +1,7 @@
 ﻿using Biza.CodeAnalysis.Binding;
 using Biza.CodeAnalysis.Syntax;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Biza.CodeAnalysis
@@ -14,9 +15,9 @@ namespace Biza.CodeAnalysis
 
         public SyntaxTree SyntaxTree { get; }
 
-        public EvaluationResult Evaluate()
+        public EvaluationResult Evaluate(Dictionary<string, object> variables)
         {
-            var binder = new Binder();
+            var binder = new Binder(variables);
             var boundExpression = binder.BindExpression(SyntaxTree.Root);
 
             var diagnostics = SyntaxTree.Diagnostics.Concat(binder.Diagnostics);
@@ -25,7 +26,7 @@ namespace Biza.CodeAnalysis
                 return new EvaluationResult(diagnostics, null);
             }
 
-            var evaluator = new Evaluator(boundExpression);
+            var evaluator = new Evaluator(boundExpression, variables);
             var value = evaluator.Evaluate();
             return new EvaluationResult(Array.Empty<Diagnostic>(), value);
         }

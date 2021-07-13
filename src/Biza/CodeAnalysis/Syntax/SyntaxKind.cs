@@ -31,5 +31,8 @@ namespace Biza.CodeAnalysis.Syntax
         ParenthesizedExpression,
         OrKeyword,
         AndKeyword,
+        EqualsToken,
+        AssignmentExpression,
+        NameExpression,
     }
 }

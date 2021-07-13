@@ -91,6 +91,7 @@ namespace Biza.CodeAnalysis.Syntax
                 '=' when Lookahead == '=' => (2, new SyntaxToken(SyntaxKind.EqualsEqualsToken, start, "==", null)),
                 '!' when Lookahead == '=' => (2, new SyntaxToken(SyntaxKind.BangEqualsToken, start, "!=", null)),
                 '!' => (0, new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null)),
+                '=' => (1, new SyntaxToken(SyntaxKind.EqualsToken, start, "=", null)),
                 _ => (0, null)
             };
 

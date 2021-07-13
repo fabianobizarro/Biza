@@ -1,6 +1,7 @@
 ﻿using Biza.CodeAnalysis;
 using Biza.CodeAnalysis.Syntax;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static System.Console;
 
@@ -11,6 +12,7 @@ namespace Biza
         static void Main(string[] args)
         {
             var showTree = true;
+            var variables = new Dictionary<string, object>();
 
             while (true)
             {
@@ -34,7 +36,7 @@ namespace Biza
                 var syntaxTree = SyntaxTree.Parse(line);
                 var compilation = new Compilation(syntaxTree);
 
-                var result = compilation.Evaluate();
+                var result = compilation.Evaluate(variables);
 
                 if (showTree)
                 {

@@ -1,15 +1,18 @@
 using Biza.CodeAnalysis.Binding;
 using System;
+using System.Collections.Generic;
 
 namespace Biza.CodeAnalysis
 {
     internal sealed class Evaluator
     {
         private readonly BoundExpression _root;
+        private readonly Dictionary<string, object> _variables;
 
-        public Evaluator(BoundExpression root)
+        public Evaluator(BoundExpression root, Dictionary<string, object> variables)
         {
             _root = root;
+            _variables = variables;
         }
 
         public object Evaluate()
@@ -22,10 +25,19 @@ namespace Biza.CodeAnalysis
             return node switch
             {
                 BoundLiteralExpression n => n.Value,
+                BoundVariableExpression v => _variables[v.Name],
+                BoundAssignmentExpression a => EvaluateAssignmentExpression(a),
                 BoundUnaryExpression u => EvaluateUnaryExpression(u),
                 BoundBinaryExpression b => EvaluateBinaryExpression(b),
                 _ => throw new Exception($"Unexpected node {node.Kind}")
             };
+        }
+
+        private object EvaluateAssignmentExpression(BoundAssignmentExpression a)
+        {
+            var value = EvaluateExpression(a.Expression);
+            _variables[a.Name] = value;
+            return value;
         }
 
         private object EvaluateUnaryExpression(BoundUnaryExpression u)
