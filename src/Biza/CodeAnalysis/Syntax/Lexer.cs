@@ -39,10 +39,10 @@ namespace Biza.CodeAnalysis.Syntax
                 return new SyntaxToken(SyntaxKind.EndOfFileToken, _position, "\0", null);
             }
 
+            var start = _position;
+
             if (char.IsDigit(Current))
             {
-                var start = _position;
-
                 while (char.IsDigit(Current))
                     Next();
 
@@ -57,8 +57,6 @@ namespace Biza.CodeAnalysis.Syntax
 
             if (char.IsWhiteSpace(Current))
             {
-                var start = _position;
-
                 while (char.IsWhiteSpace(Current))
                     Next();
 
@@ -70,8 +68,6 @@ namespace Biza.CodeAnalysis.Syntax
 
             if (char.IsLetter(Current))
             {
-                var start = _position;
-
                 while (char.IsLetter(Current))
                     Next();
 
@@ -82,21 +78,23 @@ namespace Biza.CodeAnalysis.Syntax
                 return new SyntaxToken(kind, start, text, null);
             }
 
-            var token = Current switch
+            (var addPosition, var token) = Current switch
             {
-                '+' => new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null),
-                '-' => new SyntaxToken(SyntaxKind.MinusToken, _position++, "-", null),
-                '*' => new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null),
-                '/' => new SyntaxToken(SyntaxKind.SlashToken, _position++, "/", null),
-                '(' => new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null),
-                ')' => new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null),
-                '&' when Lookahead == '&' => new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, _position += 2, "&&", null),
-                '|' when Lookahead == '|' => new SyntaxToken(SyntaxKind.PipePipeToken, _position += 2, "||", null),
-                '=' when Lookahead == '=' => new SyntaxToken(SyntaxKind.EqualsEqualsToken, _position += 2, "==", null),
-                '!' when Lookahead == '=' => new SyntaxToken(SyntaxKind.BangEqualsToken, _position += 2, "!=", null),
-                '!' => new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null),
-                _ => null
+                '+' => (0, new SyntaxToken(SyntaxKind.PlusToken, _position++, "+", null)),
+                '-' => (0, new SyntaxToken(SyntaxKind.MinusToken, _position++, "-", null)),
+                '*' => (0, new SyntaxToken(SyntaxKind.StarToken, _position++, "*", null)),
+                '/' => (0, new SyntaxToken(SyntaxKind.SlashToken, _position++, "/", null)),
+                '(' => (0, new SyntaxToken(SyntaxKind.OpenParenthesisToken, _position++, "(", null)),
+                ')' => (0, new SyntaxToken(SyntaxKind.CloseParenthesisToken, _position++, ")", null)),
+                '&' when Lookahead == '&' => (2, new SyntaxToken(SyntaxKind.AmpersandAmpersandToken, start, "&&", null)),
+                '|' when Lookahead == '|' => (2, new SyntaxToken(SyntaxKind.PipePipeToken, start, "||", null)),
+                '=' when Lookahead == '=' => (2, new SyntaxToken(SyntaxKind.EqualsEqualsToken, start, "==", null)),
+                '!' when Lookahead == '=' => (2, new SyntaxToken(SyntaxKind.BangEqualsToken, start, "!=", null)),
+                '!' => (0, new SyntaxToken(SyntaxKind.BangToken, _position++, "!", null)),
+                _ => (0, null)
             };
+
+            _position += addPosition;
 
             if (token is not null)
                 return token;
