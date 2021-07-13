@@ -15,7 +15,7 @@ namespace Biza.CodeAnalysis.Binding
             LiteralExpressionSyntax literal => BindLiteralExpression(literal),
             UnaryExpressionSyntax unary => BindUnaryExpression(unary),
             BinaryExpressionSyntax binary => BindBinaryExpression(binary),
-            ParenthesizedExpressionSyntax p => BindExpression(p.Expression),
+            ParenthesizedExpressionSyntax p => BindParenthesizedExpression(p),
             _ => throw new Exception($"Unexpected syntax {syntax.Kind}")
         };
 
@@ -52,6 +52,11 @@ namespace Biza.CodeAnalysis.Binding
             }
 
             return new BoundBinaryExpression(boundLeft, boundOperator, boundRight);
+        }
+        
+        private BoundExpression BindParenthesizedExpression(ParenthesizedExpressionSyntax syntax)
+        {
+            return BindExpression(syntax.Expression);
         }
     }
 }
