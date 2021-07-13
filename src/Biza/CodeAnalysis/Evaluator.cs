@@ -7,9 +7,9 @@ namespace Biza.CodeAnalysis
     internal sealed class Evaluator
     {
         private readonly BoundExpression _root;
-        private readonly Dictionary<string, object> _variables;
+        private readonly Dictionary<VariableSymbol, object> _variables;
 
-        public Evaluator(BoundExpression root, Dictionary<string, object> variables)
+        public Evaluator(BoundExpression root, Dictionary<VariableSymbol, object> variables)
         {
             _root = root;
             _variables = variables;
@@ -25,7 +25,7 @@ namespace Biza.CodeAnalysis
             return node switch
             {
                 BoundLiteralExpression n => n.Value,
-                BoundVariableExpression v => _variables[v.Name],
+                BoundVariableExpression v => _variables[v.Variable],
                 BoundAssignmentExpression a => EvaluateAssignmentExpression(a),
                 BoundUnaryExpression u => EvaluateUnaryExpression(u),
                 BoundBinaryExpression b => EvaluateBinaryExpression(b),
@@ -36,7 +36,7 @@ namespace Biza.CodeAnalysis
         private object EvaluateAssignmentExpression(BoundAssignmentExpression a)
         {
             var value = EvaluateExpression(a.Expression);
-            _variables[a.Name] = value;
+            _variables[a.Varible] = value;
             return value;
         }
 

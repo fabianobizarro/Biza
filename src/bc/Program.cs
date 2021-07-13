@@ -12,7 +12,7 @@ namespace Biza
         static void Main(string[] args)
         {
             var showTree = true;
-            var variables = new Dictionary<string, object>();
+            var variables = new Dictionary<VariableSymbol, object>();
 
             while (true)
             {
