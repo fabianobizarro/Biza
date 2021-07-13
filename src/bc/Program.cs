@@ -49,12 +49,30 @@ namespace Biza
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-
                     foreach (var diagnostic in result.Diagnostics)
-                        WriteLine(diagnostic);
+                    {
+                        WriteLine();
 
-                    Console.ResetColor();
+                        ForegroundColor = ConsoleColor.DarkRed;
+                        WriteLine(diagnostic);
+                        ResetColor();
+
+                        var prefix = line.Substring(0, diagnostic.Span.Start);
+                        var error = line.Substring(diagnostic.Span.Start, diagnostic.Span.Length);
+                        var suffix = line.Substring(diagnostic.Span.End);
+
+                        Write("    ");
+                        Write(prefix);
+
+                        ForegroundColor = ConsoleColor.DarkRed;
+                        Write(error);
+                        ResetColor();
+
+                        Write(suffix);
+                        WriteLine();
+                    }
+
+                    WriteLine();
                 }
             }
         }
